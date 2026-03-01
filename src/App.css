@@ -1,0 +1,375 @@
+/* --- 基礎變數與重置 --- */
+:root {
+  --primary: #6366f1;
+  --primary-hover: #4f46e5;
+  --bg-gradient: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+  /* 💡 玻璃感核心：半透明白色 */
+  --glass-white: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.4);
+}
+
+body {
+  margin: 0;
+  background: var(--bg-gradient);
+  background-attachment: fixed; /* 💡 讓背景固定，滾動時玻璃感更強 */
+  min-height: 100vh;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: #1f2937;
+}
+
+/* --- 佈局架構 --- */
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* 側邊欄：磨砂玻璃效果 */
+.sidebar {
+  width: 260px;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-right: 1px solid var(--glass-border);
+  display: flex;
+  flex-direction: column;
+  padding: 30px 20px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  z-index: 100;
+}
+
+.sidebar-logo {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--primary);
+  margin-bottom: 40px;
+  letter-spacing: -1px;
+}
+
+.nav-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.nav-item {
+  text-decoration: none;
+  color: #4b5563;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.nav-item:hover {
+  background: rgba(99, 102, 241, 0.1);
+  color: var(--primary);
+}
+
+.nav-item.active {
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.logout-btn {
+  border: none;
+  background: none;
+  text-align: left;
+  cursor: pointer;
+  color: #ef4444;
+}
+
+.logout-btn:hover {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+/* --- 主要內容區 --- */
+.main-content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.page-content {
+  width: 100%;
+  max-width: 680px; /* 💡 寬版 Feed 關鍵 */
+  padding: 40px 20px;
+}
+
+.title {
+  font-size: 2.4rem;
+  font-weight: 900;
+  margin-bottom: 32px;
+  text-align: center;
+  background: linear-gradient(45deg, #4f46e5, #9333ea);
+  -webkit-background-clip: text; /* 針對 Chrome/Safari */
+  background-clip: text;         /* 標準屬性 (修正警告的關鍵) */
+  -webkit-text-fill-color: transparent;
+}
+
+/* --- 發文框 (Glassmorphism) --- */
+.form-box {
+  background: var(--glass-white);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 24px;
+  border-radius: 20px;
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.1);
+  margin-bottom: 48px;
+  align-items: center;
+}
+
+.textarea-field {
+  width: 100%;
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
+  padding: 16px;
+  font-size: 1.1rem;
+  min-height: 120px;
+  margin-bottom: 16px;
+  transition: all 0.3s;
+  text-align: center
+}
+
+.textarea-field:focus {
+  outline: none;
+  background: white;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+}
+
+  .submit-btn {
+    width: fit-content;      /* 根據文字寬度自適應 */
+    min-width: 320px;       /* 設定一個最小寬度，看起來比較大氣 */
+    margin: 0 auto;         /* 關鍵：上下 0，左右自動置中 */
+    
+    padding: 14px 32px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+.submit-botton{
+    width: fit-content;      /* 根據文字寬度自適應 */
+    min-width: 620px;       /* 設定一個最小寬度，看起來比較大氣 */
+    margin: 0 auto;         /* 關鍵：上下 0，左右自動置中 */
+    
+    padding: 14px 32px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+
+.submit-btn:hover {
+  background: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.3);
+}
+
+/* --- 動態牆卡片 --- */
+.grid {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.card {
+  width: 100%;
+  /* 💡 移除任何 background 定義 */
+  backdrop-filter: blur(12px); /* 加強模糊感 */
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 24px;
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  
+  /* 💡 確保內聯樣式 (backgroundColor) 有最高優先權 */
+  background-clip: padding-box; 
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 15px 40px rgba(31, 38, 135, 0.12);
+}
+
+.post-image {
+  width: 100%;
+  max-height: 500px;
+  object-fit: cover;
+  display: block;
+}
+
+.card-body {
+  padding: 24px;
+}
+
+.card-content {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: #1f2937;
+  margin: 0 0 20px 0;
+  white-space: pre-wrap; /* 💡 保留換行 */
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  padding-top: 16px;
+}
+
+.author {
+  font-weight: 700;
+  color: #6b7280;
+  font-size: 0.95rem;
+}
+
+.delete-btn {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.delete-btn:hover {
+  background: #ef4444;
+  color: white;
+}
+
+/* 登入頁面專用容器 */
+.auth-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh; /* 讓它在垂直方向也居中 */
+}
+
+/* 登入框寬度限制 */
+.auth-box {
+  width: 100%;
+  max-width: 400px;
+  gap: 20px !important;
+}
+
+/* 讓 Input 看起來更像樣式表裡的輸入框 */
+.auth-input {
+  min-height: unset !important; /* 蓋掉 textarea 的高度 */
+  margin-bottom: 0 !important;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.input-group label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #4b5563;
+  margin-left: 4px;
+}
+
+/* 登入按鈕額外效果 */
+.auth-btn {
+  margin-top: 10px;
+  background: linear-gradient(135deg, var(--primary) 0%, #9333ea 100%);
+}
+
+.auth-btn:hover {
+  filter: brightness(1.1);
+}
+
+/* 統一單行與多行輸入框的玻璃樣式 */
+.input-field, .textarea-field {
+  width: 100%;
+  box-sizing: border-box; /* 💡 確保寬度包含內邊距，不會爆出去 */
+  background: rgba(255, 255, 255, 0.3); /* 半透明底 */
+  border: 1px solid rgba(255, 255, 255, 0.5); /* 白色邊框線 */
+  border-radius: 12px;
+  padding: 14px 16px;
+  font-size: 1rem;
+  color: #1f2937;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(4px); /* 💡 輸入框內也帶有一點微模糊 */
+}
+
+/* 焦點狀態：變白且發光 */
+.input-field:focus, .textarea-field:focus {
+  outline: none;
+  background: rgba(255, 255, 255, 0.9);
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+  transform: translateY(-1px); /* 💡 點擊時有一點點浮起的感覺 */
+}
+
+/* 針對登入頁面特殊的 input 調整 */
+.auth-input {
+  margin-bottom: 0 !important;
+  height: 50px; /* 💡 設定一個舒服的固定高度 */
+}
+
+.preview-container {
+  position: relative;
+  margin-bottom: 15px;
+  width: 100%;           /* 確保容器撐滿 */
+  display: flex;         /* 💡 讓圖片置中 */
+  justify-content: center;
+}
+
+.upload-preview {
+  /* 1. 寬度限制 */
+  width: 100%;           /* 寬度撐滿父容器 */
+  max-width: 400px;      /* 💡 設定一個舒服的最大寬度，不要太大 */
+  
+  /* 2. 高度限制 (關鍵) */
+  height: auto;          /* 高度自動 */
+  max-height: 250px;     /* 💡 限制最大高度，防止大圖撐爆畫面 */
+  
+  /* 3. 填充模式 (最關鍵) */
+  object-fit: cover;     /* 💡 保持比例裁切填充，不變形、不拉伸 */
+  
+  /* 4. 美化 */
+  border-radius: 12px;
+  border: 2px solid var(--glass-border);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* --- 取消按鈕微調 --- */
+.remove-preview {
+  position: absolute; 
+  top: 10px; 
+  right: calc(50% - 190px); /* 💡 讓按鈕跟著圖片右側走 (max-width / 2) */
+  background: rgba(0,0,0,0.6); 
+  color: white; 
+  border: none; 
+  border-radius: 50%; 
+  width: 28px; height: 28px;
+  cursor: pointer; 
+  display: flex; align-items: center; justify-content: center;
+  transition: 0.2s;
+  z-index: 10;
+}
+.remove-preview:hover { background: #ef4444; transform: scale(1.1); }
