@@ -134,7 +134,6 @@ body {
   min-height: 120px;
   margin-bottom: 16px;
   transition: all 0.3s;
-  text-align: center
 }
 
 .textarea-field:focus {
